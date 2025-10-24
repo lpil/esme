@@ -14,7 +14,7 @@ RUN \
   && esbuild --bundle build/dev/javascript/esme/gleam.main.mjs --platform=node --target=node${NODE_VERSION} > /app/esme.js
 
 # Final stage
-FROM node:${NODE_VERSION}-alpine AS build
+FROM node:${NODE_VERSION}-alpine AS app
 ARG GIT_SHA
 ARG BUILD_TIME
 ENV GIT_SHA=${GIT_SHA}
@@ -23,7 +23,6 @@ RUN \
   addgroup --system webapp && \
   adduser --system webapp -g webapp
 COPY --from=build /app/esme.js /app/esme.js
-COPY healthcheck.sh /app/healthcheck.sh
 VOLUME /app/data
 LABEL org.opencontainers.image.source=https://github.com/lpil/esme
 LABEL org.opencontainers.image.description="GPS tracker for Esme boat"
