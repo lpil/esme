@@ -1,8 +1,8 @@
-ARG NODE_VERSION= 25.0.0
-ARG GLEAM_VERSION=v1.12.0
+ARG NODE_VERSION=25.0.0
+ARG GLEAM_VERSION=1.13.0
 
 # Gleam stage
-FROM ghcr.io/gleam-lang/gleam:${GLEAM_VERSION}-scratch AS gleam
+FROM ghcr.io/gleam-lang/gleam:v${GLEAM_VERSION}-scratch AS gleam
 
 # Build stage
 FROM node:${NODE_VERSION}-alpine AS build
