@@ -2,24 +2,29 @@
 # You typically do not need to edit this file
 
 packages = [
-  { name = "conversation", version = "1.4.3", build_tools = ["gleam"], requirements = ["gleam_http", "gleam_javascript", "gleam_stdlib"], otp_app = "conversation", source = "hex", outer_checksum = "908B46F60444442785A495197D482558AD8B849C3714A38FAA1940358CC8CCCD" },
-  { name = "decode", version = "0.2.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "decode", source = "hex", outer_checksum = "965F517F67B8C172CA27A5C8E34C73733139E8C9E64736181B8C3179281F9793" },
-  { name = "gleam_http", version = "3.6.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_http", source = "hex", outer_checksum = "8C07DF9DF8CC7F054C650839A51C30A7D3C26482AC241C899C1CEA86B22DBE51" },
-  { name = "gleam_javascript", version = "0.11.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_javascript", source = "hex", outer_checksum = "483631D3001FCE8EB12ADEAD5E1B808440038E96F93DA7A32D326C82F480C0B2" },
-  { name = "gleam_json", version = "2.0.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_json", source = "hex", outer_checksum = "CB10B0E7BF44282FB25162F1A24C1A025F6B93E777CCF238C4017E4EEF2CDE97" },
-  { name = "gleam_stdlib", version = "0.39.0", build_tools = ["gleam"], requirements = [], otp_app = "gleam_stdlib", source = "hex", outer_checksum = "2D7DE885A6EA7F1D5015D1698920C9BAF7241102836CE0C3837A4F160128A9C4" },
-  { name = "gleeunit", version = "1.2.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleeunit", source = "hex", outer_checksum = "F7A7228925D3EE7D0813C922E062BFD6D7E9310F0BEE585D3A42F3307E3CFD13" },
-  { name = "gpsd_json", version = "1.0.0", build_tools = ["gleam"], requirements = ["decode", "gleam_json", "gleam_stdlib"], otp_app = "gpsd_json", source = "hex", outer_checksum = "493CDD664870A3B230EE17AFF0501322277610F4E0D80C49661713AB9716C651" },
-  { name = "gsv", version = "1.4.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gsv", source = "hex", outer_checksum = "4D6B08A60D38AB8D6605822B50A120E2BCDE1F3F2EA9DD3BBBEC3350CFB15D3F" },
-  { name = "node_socket_client", version = "1.0.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "node_socket_client", source = "hex", outer_checksum = "B60BC0B3E0B1F114B75F649C2AE9E4DB43B0DFE915CC9149DE76398A997F1AFB" },
-  { name = "plinth", version = "0.4.8", build_tools = ["gleam"], requirements = ["conversation", "gleam_javascript", "gleam_json", "gleam_stdlib"], otp_app = "plinth", source = "hex", outer_checksum = "89C9003F4F57AEF76A8051C9A0613926B7C6D742901019DEBBE036F8D1465069" },
+  { name = "argv", version = "1.0.2", build_tools = ["gleam"], requirements = [], otp_app = "argv", source = "hex", outer_checksum = "BA1FF0929525DEBA1CE67256E5ADF77A7CDDFE729E3E3F57A5BDCAA031DED09D" },
+  { name = "filepath", version = "1.1.2", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "filepath", source = "hex", outer_checksum = "B06A9AF0BF10E51401D64B98E4B627F1D2E48C154967DA7AF4D0914780A6D40A" },
+  { name = "gleam_javascript", version = "1.0.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_javascript", source = "hex", outer_checksum = "EF6C77A506F026C6FB37941889477CD5E4234FCD4337FF0E9384E297CB8F97EB" },
+  { name = "gleam_json", version = "3.0.2", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleam_json", source = "hex", outer_checksum = "874FA3C3BB6E22DD2BB111966BD40B3759E9094E05257899A7C08F5DE77EC049" },
+  { name = "gleam_stdlib", version = "0.65.0", build_tools = ["gleam"], requirements = [], otp_app = "gleam_stdlib", source = "hex", outer_checksum = "7C69C71D8C493AE11A5184828A77110EB05A7786EBF8B25B36A72F879C3EE107" },
+  { name = "glearray", version = "2.1.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "glearray", source = "hex", outer_checksum = "5E272F7CB278CC05A929C58DEB58F5D5AC6DB5B879A681E71138658D0061C38A" },
+  { name = "gleeunit", version = "1.6.1", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "gleeunit", source = "hex", outer_checksum = "FDC68A8C492B1E9B429249062CD9BAC9B5538C6FBF584817205D0998C42E1DAC" },
+  { name = "gpsd_json", version = "2.0.0", build_tools = ["gleam"], requirements = ["gleam_json", "gleam_stdlib"], otp_app = "gpsd_json", source = "hex", outer_checksum = "4D69E11506B40AFBBFF84796C067C72170875AB1D948F3D774B3E236F35E4977" },
+  { name = "gsv", version = "5.0.0", build_tools = ["gleam"], requirements = ["gleam_stdlib", "glearray", "splitter"], otp_app = "gsv", source = "hex", outer_checksum = "41B98AA485FADD4D498CD4BEC37DAA221AE20B9667D0350AA310A14997B52049" },
+  { name = "node_socket_client", version = "1.0.1", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "node_socket_client", source = "hex", outer_checksum = "2C5B2A2CEB83C8DE9A5C58628E68335C78592C45CFC45A3E3FA13FE5F63A73B0" },
+  { name = "plinth", version = "0.7.2", build_tools = ["gleam"], requirements = ["gleam_javascript", "gleam_json", "gleam_stdlib"], otp_app = "plinth", source = "hex", outer_checksum = "3D70AF096A6F46DC71023C28B16BCCC6D7FAB9A467711426DAEB05902022B08F" },
+  { name = "simplifile", version = "2.3.0", build_tools = ["gleam"], requirements = ["filepath", "gleam_stdlib"], otp_app = "simplifile", source = "hex", outer_checksum = "0A868DAC6063D9E983477981839810DC2E553285AB4588B87E3E9C96A7FB4CB4" },
+  { name = "splitter", version = "1.1.0", build_tools = ["gleam"], requirements = ["gleam_stdlib"], otp_app = "splitter", source = "hex", outer_checksum = "05564A381580395DCDEFF4F88A64B021E8DAFA6540AE99B4623962F52976AA9D" },
 ]
 
 [requirements]
-gleam_json = { version = ">= 2.0.0 and < 3.0.0" }
+argv = { version = ">= 1.0.2 and < 2.0.0" }
+gleam_json = { version = ">= 3.0.0 and < 4.0.0" }
 gleam_stdlib = { version = ">= 0.34.0 and < 2.0.0" }
 gleeunit = { version = ">= 1.0.0 and < 2.0.0" }
-gpsd_json = { version = ">= 1.0.0 and < 2.0.0" }
-gsv = { version = ">= 1.4.0 and < 2.0.0" }
+gpsd_json = { version = ">= 2.0.0 and < 3.0.0" }
+gsv = { version = ">= 5.0.0 and < 6.0.0" }
 node_socket_client = { version = ">= 1.0.0 and < 2.0.0" }
 plinth = { version = ">= 0.4.8 and < 1.0.0" }
+simplifile = { version = ">= 2.3.0 and < 3.0.0" }
+filepath = { version = ">= 1.1.2 and < 2.0.0" }

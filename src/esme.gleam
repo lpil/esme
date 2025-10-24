@@ -1,3 +1,6 @@
+import argv
+import filepath
+import gleam/float
 import gleam/io
 import gleam/json
 import gleam/list
@@ -5,29 +8,47 @@ import gleam/option.{Some}
 import gleam/result
 import gleam/string
 import gpsd_json
+import gsv
 import node_socket_client as socket
 import plinth/javascript/global
 import plinth/node/process
+import simplifile
 
 pub fn main() {
+  case argv.load().arguments {
+    ["--directory", path] -> start(path)
+    _ -> {
+      io.print_error("USAGE: node esme.js -- --out")
+    }
+  }
+}
+
+fn start(out_directory: String) -> Nil {
   io.println("Connecting")
+  let state = State(out_directory:)
 
   // Connect to GPSD
-  let socket = socket.connect("localhost", 2947, Nil, handle_socket_event)
+  let socket = socket.connect("127.0.0.1", 2947, state, handle_socket_event)
 
-  // Give up if it does not succeed within 2 seconds
-  global.set_timeout(2000, fn() {
+  // Give up if it does not succeed within 5 seconds
+  global.set_timeout(5000, fn() {
     io.println("Timeout reached, shutting down")
     socket.end(socket)
     process.exit(1)
   })
+
+  Nil
+}
+
+type State {
+  State(out_directory: String)
 }
 
 fn handle_socket_event(
-  state: state,
+  state: State,
   socket: socket.SocketClient,
   event: socket.Event(String),
-) -> state {
+) -> State {
   case event {
     socket.ReadyEvent -> handle_ready(state, socket)
     socket.DataEvent(data) -> handle_data(state, socket, data)
@@ -35,7 +56,7 @@ fn handle_socket_event(
   }
 }
 
-fn handle_ready(state: state, socket: socket.SocketClient) -> state {
+fn handle_ready(state: State, socket: socket.SocketClient) -> State {
   io.println("Socket connected, requesting data")
 
   let command =
@@ -51,10 +72,24 @@ fn handle_ready(state: state, socket: socket.SocketClient) -> state {
   state
 }
 
-fn handle_data(state: state, socket: socket.SocketClient, data: String) -> state {
+fn handle_data(state: State, socket: socket.SocketClient, data: String) -> State {
   case find_coordinates(data) {
     Ok(coordinates) -> {
-      io.debug(coordinates)
+      let csv =
+        [
+          [
+            coordinates.time,
+            float.to_string(coordinates.latitude),
+            float.to_string(coordinates.longitude),
+          ],
+        ]
+        |> gsv.from_lists(",", gsv.Unix)
+      assert string.ends_with(csv, "\n") as "CSV must end with newline"
+      let length = string.length("2005-06-08")
+      let date = string.slice(coordinates.time, at_index: 0, length:)
+      let path = state.out_directory |> filepath.join(date <> ".csv")
+      io.print("Appending " <> csv <> " to " <> path)
+      let assert Ok(_) = simplifile.append(path, csv)
       socket.end(socket)
       io.println("Done")
       process.exit(0)
@@ -78,7 +113,7 @@ fn find_coordinates(data: String) -> Result(Coordinates, Nil) {
   let lines = string.split(data, "\n")
   use line <- list.find_map(lines)
 
-  let response = case json.decode(line, gpsd_json.decode_response) {
+  let response = case json.parse(line, gpsd_json.response_decoder()) {
     Ok(data) -> data
     Error(_) -> panic as { "Invalid JSON message: " <> data }
   }
@@ -88,11 +123,11 @@ fn find_coordinates(data: String) -> Result(Coordinates, Nil) {
     _ -> Error(Nil)
   })
 
-  use tpv <- list.find_map(tpvs)
-
-  case tpv.latitude, tpv.longitude {
-    Some(lat), Some(lon) ->
-      Ok(Coordinates(time: time, latitude: lat, longitude: lon))
-    _, _ -> Error(Nil)
-  }
+  list.find_map(tpvs, fn(tpv) {
+    case tpv.latitude, tpv.longitude {
+      Some(lat), Some(lon) ->
+        Ok(Coordinates(time: time, latitude: lat, longitude: lon))
+      _, _ -> Error(Nil)
+    }
+  })
 }
