@@ -1,0 +1,12 @@
+*.beam
+*.ez
+.env
+.git
+.github
+.gitignore
+.idea
+README.md
+bin
+build
+erl_crash.dump
+test

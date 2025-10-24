@@ -11,7 +11,10 @@ COPY . /app/
 RUN \
   cd /app \
   && gleam build \
-  && esbuild --bundle build/dev/javascript/esme/gleam.main.mjs --platform=node --target=node${NODE_VERSION} > /app/esme.js
+  && npx esbuild --bundle main.js \
+    --platform=node \
+    --target=node${NODE_VERSION} \
+    --outfile=/app/esme.js
 
 # Final stage
 FROM node:${NODE_VERSION}-alpine AS app
