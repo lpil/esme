@@ -1,3 +1,3 @@
-import { main } from "./build/dev/javascript/esme/gleam.main.mjs";
+import { main } from "./build/dev/javascript/esme/esme.mjs";
 
 main();
